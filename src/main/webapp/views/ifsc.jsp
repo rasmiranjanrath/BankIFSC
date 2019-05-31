@@ -57,8 +57,8 @@
 		</select>
 	</div>
 	<article>
-	IFSC::   <span id="ifsc"></span><br>
-	ADDRESS::<span id="address"></span>
+	<span class="text-info">IFSC::</span>   <span id="ifsc" class="text-success"></span><br>
+	<span class="text-info">ADDRESS::</span><span id="address" class="text-success"></span>
 	</article>
 </div>
 <script src="/views/script.js"></script>

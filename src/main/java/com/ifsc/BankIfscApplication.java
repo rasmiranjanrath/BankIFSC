@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -40,7 +41,7 @@ public class BankIfscApplication {
 
 	@GetMapping("/")
 	public ModelAndView getAllBanks(Map<String, Object> model) {
-		List<String> bankStateList = bankIfscRepository.findDistinctCity();
+		List<String> bankStateList = bankIfscRepository.findDistinctBank();
 		ModelAndView modelAndView = new ModelAndView("ifsc");
 		model.put("bankName", bankStateList);
 		modelAndView.addAllObjects(model);
@@ -50,8 +51,9 @@ public class BankIfscApplication {
 
 	@GetMapping("getStates")
 	@ResponseBody
-	public String getStates(HttpServletRequest request) {
+	public String getStates(HttpServletRequest request, HttpSession session) {
 		String bankName = request.getParameter("bankName");
+		session.setAttribute("bankName", bankName);
 		List<BankIfsc> states = bankIfscRepository.findDistinctByBankName(bankName);
 		List<String> state = new ArrayList<String>();
 
@@ -66,41 +68,34 @@ public class BankIfscApplication {
 
 	@GetMapping("getCity")
 	@ResponseBody
-	public String getCity(HttpServletRequest request) {
+	public String getCity(HttpServletRequest request, HttpSession session) {
 		String bankstate = request.getParameter("bankstate");
-		List<BankIfsc> cities = bankIfscRepository.findBybankState(bankstate);
-		List<String> city = new ArrayList<String>();
+		String bankName = (String) session.getAttribute("bankName");
+		session.setAttribute("bankstate", bankstate);
+		List<String> cities = bankIfscRepository.findBybankState(bankstate, bankName);
 
-		for (BankIfsc bankIfsc : cities) {
-			if (!city.contains(bankIfsc.getBankCity())) {
-				city.add(bankIfsc.getBankCity());
-			}
-		}
-		return new Gson().toJson(city);
+		return new Gson().toJson(cities);
 
 	}
 
 	@GetMapping("getBranch")
 	@ResponseBody
-	public String getBranch(HttpServletRequest request) {
+	public String getBranch(HttpServletRequest request, HttpSession session) {
 		String bankCity = request.getParameter("bankCity");
-		List<BankIfsc> branches = bankIfscRepository.findBybankCity(bankCity);
-		List<String> branch = new ArrayList<String>();
+		String bankName = (String) session.getAttribute("bankName");
+		String bankstate = (String) session.getAttribute("bankstate");
+		List<String> branches = bankIfscRepository.findBybankCity(bankCity, bankName,bankstate);
 
-		for (BankIfsc bankIfsc : branches) {
-
-			branch.add(bankIfsc.getBank_branch());
-
-		}
-		return new Gson().toJson(branch);
+		return new Gson().toJson(branches);
 
 	}
 
 	@GetMapping("getIfsc")
 	@ResponseBody
-	public String getIfsc(HttpServletRequest request) {
+	public String getIfsc(HttpServletRequest request, HttpSession session) {
 		String bankBranch = request.getParameter("bankBranch");
-		List<BankIfsc> branches = bankIfscRepository.findBybankBranch(bankBranch);
+		String bankName = (String) session.getAttribute("bankName");
+		List<BankIfsc> branches = bankIfscRepository.findBybankBranch(bankBranch, bankName);
 		List<String> details = new ArrayList<String>();
 		if (!branches.isEmpty()) {
 			details.add(branches.get(0).getBankIfsc());
