@@ -1,6 +1,7 @@
 package com.ifsc;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -34,15 +35,12 @@ public class BankIfscApplication {
 		SpringApplication.run(BankIfscApplication.class, args);
 	}
 
-	/*
-	 * @GetMapping("/") public ModelAndView home() { return new
-	 * ModelAndView("ifsc"); }
-	 */
 
 	@GetMapping("/")
 	public ModelAndView getAllBanks(Map<String, Object> model) {
 		List<String> bankStateList = bankIfscRepository.findDistinctBank();
 		ModelAndView modelAndView = new ModelAndView("ifsc");
+		Collections.sort(bankStateList);
 		model.put("bankName", bankStateList);
 		modelAndView.addAllObjects(model);
 		return modelAndView;
@@ -56,12 +54,13 @@ public class BankIfscApplication {
 		session.setAttribute("bankName", bankName);
 		List<BankIfsc> states = bankIfscRepository.findDistinctByBankName(bankName);
 		List<String> state = new ArrayList<String>();
-
+		
 		for (BankIfsc bankIfsc : states) {
 			if (!state.contains(bankIfsc.getBankState())) {
 				state.add(bankIfsc.getBankState());
 			}
 		}
+		Collections.sort(state);
 		return new Gson().toJson(state);
 
 	}
@@ -73,7 +72,7 @@ public class BankIfscApplication {
 		String bankName = (String) session.getAttribute("bankName");
 		session.setAttribute("bankstate", bankstate);
 		List<String> cities = bankIfscRepository.findBybankState(bankstate, bankName);
-
+		Collections.sort(cities);
 		return new Gson().toJson(cities);
 
 	}
@@ -85,7 +84,7 @@ public class BankIfscApplication {
 		String bankName = (String) session.getAttribute("bankName");
 		String bankstate = (String) session.getAttribute("bankstate");
 		List<String> branches = bankIfscRepository.findBybankCity(bankCity, bankName,bankstate);
-
+		Collections.sort(branches);
 		return new Gson().toJson(branches);
 
 	}
