@@ -110,3 +110,17 @@ function getIfsc(bankBranch) {
 	});
 	
 }
+function resetValues(){
+	document.getElementById('bankName').selectedIndex=0;
+	removeAndAppend('bankState');
+	removeAndAppend('bankCity');
+	removeAndAppend('bankBranch');
+	document.getElementById('ifsc').innerHTML="";
+	document.getElementById('address').innerHTML="";
+}
+function removeAndAppend(id){
+	document.getElementById(id).options.length = 0;
+	var selectOption = document.createElement("option");
+	selectOption.innerHTML = "...Select...";
+	selectOption.value = "";
+}

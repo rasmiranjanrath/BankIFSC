@@ -22,7 +22,7 @@
 <div class="container">
 	<div class="form-group">
 	<label>Bank Name</label>
-		<select class="form-control" onchange="getState(this.value);">
+		<select id="bankName" class="form-control" onchange="getState(this.value);">
 			<option value="">...Select...</option>
 			<c:forEach items="${bankName}" var="bankName">
 				<option value="${bankName}" >${bankName}</option>
@@ -56,10 +56,14 @@
 			</c:forEach>
 		</select>
 	</div>
-	<article>
+	<div>
 	<span class="text-info">IFSC::</span>   <span id="ifsc" class="text-success"></span><br>
 	<span class="text-info">ADDRESS::</span><span id="address" class="text-success"></span>
-	</article>
+	<div class="text-right">
+	<button type="button" class="btn btn-primary" onclick="resetValues();">Reset</button>
+	</div>
+	</div>
+	
 </div>
 <script src="/views/script.js"></script>
 </body>
