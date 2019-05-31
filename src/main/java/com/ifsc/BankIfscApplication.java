@@ -16,6 +16,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -35,7 +36,6 @@ public class BankIfscApplication {
 		SpringApplication.run(BankIfscApplication.class, args);
 	}
 
-
 	@GetMapping("/")
 	public ModelAndView getAllBanks(Map<String, Object> model) {
 		List<String> bankStateList = bankIfscRepository.findDistinctBank();
@@ -54,7 +54,7 @@ public class BankIfscApplication {
 		session.setAttribute("bankName", bankName);
 		List<BankIfsc> states = bankIfscRepository.findDistinctByBankName(bankName);
 		List<String> state = new ArrayList<String>();
-		
+
 		for (BankIfsc bankIfsc : states) {
 			if (!state.contains(bankIfsc.getBankState())) {
 				state.add(bankIfsc.getBankState());
@@ -83,7 +83,7 @@ public class BankIfscApplication {
 		String bankCity = request.getParameter("bankCity");
 		String bankName = (String) session.getAttribute("bankName");
 		String bankstate = (String) session.getAttribute("bankstate");
-		List<String> branches = bankIfscRepository.findBybankCity(bankCity, bankName,bankstate);
+		List<String> branches = bankIfscRepository.findBybankCity(bankCity, bankName, bankstate);
 		Collections.sort(branches);
 		return new Gson().toJson(branches);
 
@@ -107,4 +107,23 @@ public class BankIfscApplication {
 
 	}
 
+	@PostMapping("fetchDeatils")
+	@ResponseBody
+	public ModelAndView fetchAllDeatils(HttpServletRequest request, HttpSession session, Map<String, Object> model) {
+		String bankIfsc = request.getParameter("bankIfsc");
+		BankIfsc details = bankIfscRepository.findBybankIfsc(bankIfsc);
+		List<String> bankStateList = bankIfscRepository.findDistinctBank();
+		ModelAndView modelAndView = new ModelAndView("ifsc");
+		if(details!=null) {
+			model.put("error","");
+			model.put("details", details);
+		}
+		else {
+			model.put("error","invalid IFSC");
+		}
+		model.put("bankName", bankStateList);
+		modelAndView.addAllObjects(model);
+		return modelAndView;
+
+	}
 }

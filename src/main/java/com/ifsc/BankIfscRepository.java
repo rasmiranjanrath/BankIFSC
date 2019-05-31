@@ -21,4 +21,6 @@ public interface BankIfscRepository extends JpaRepository<BankIfsc, Integer> {
 
 	@Query("SELECT b FROM BankIfsc b WHERE b.bankBranch=:bankBranch AND b.bankName=:bankName")
 	List<BankIfsc> findBybankBranch(@Param("bankBranch") String bankBranch, @Param("bankName") String bankName);
+	
+	BankIfsc findBybankIfsc(String bankIfsc);
 }

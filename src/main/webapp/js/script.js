@@ -124,3 +124,12 @@ function removeAndAppend(id){
 	selectOption.innerHTML = "...Select...";
 	selectOption.value = "";
 }
+function validateForm(){
+	var data=document.getElementById('bankIfsc').value;
+	if(data==null || data==""){
+		document.getElementById('errordiv').innerHTML="This field is mandatory";
+		return false;
+	}
+	document.getElementById('errordiv').innerHTML="";
+	return true;
+}

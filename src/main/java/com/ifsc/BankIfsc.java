@@ -43,10 +43,10 @@ public class BankIfsc {
 	public void setBankIfsc(String bankIfsc) {
 		this.bankIfsc = bankIfsc;
 	}
-	public String getBank_branch() {
+	public String getbankBranch() {
 		return bankBranch;
 	}
-	public void setBank_branch(String bankBranch) {
+	public void setbankBranch(String bankBranch) {
 		this.bankBranch = bankBranch;
 	}
 	public String getBank_address() {
