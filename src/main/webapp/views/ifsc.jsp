@@ -18,44 +18,106 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 <script
 	src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/js/bootstrap-select.min.js"></script>
+<link  rel="stylesheet" href="/css/style.css"/>
 </head>
 <body>
 	<div class="container">
-		<div class="form-group">
-			<label>Bank Name</label> <select id="bankName" class="form-control"
-				onchange="getState(this.value);">
-				<option value="">...Select...</option>
-				<c:forEach items="${bankName}" var="bankName">
-					<option value="${bankName}">${bankName}</option>
-				</c:forEach>
-			</select>
+		<div class="jumbotron jumbotron-fluid" style="background-color: white">
+			<div class="container">
+				<a href="/"><img style="padding: 0" src="/images/AxisBank.png"
+					height="88px" width="200px" alt=""></a>
+				<div id="MyClockDisplay" class="clock" onload="showTime()"></div>
+			</div>
 		</div>
-		<div class="form-group">
-			<label>Bank State</label> <select class="form-control" id="bankState"
-				onchange="getCity(this.value);">
-				<option value="">...Select...</option>
-				<c:forEach items="${bankstate}" var="bankstate">
-					<option value="${bankstate}">${bankstate}</option>
-				</c:forEach>
-			</select>
+		<nav class="navbar navbar-default" style="background-color: white;border-top: 1px solid black;height:20px;">
+			<div class="container-fluid">
+				<ul class="nav navbar-nav">
+					<li><a href="#">Bank IFSC</a></li>
+					<li><a href="#">Serach</a></li>
+					<li><a href="#">Misc</a></li>
+				</ul>
+
+			</div>
+		</nav>
+		<div class="row">
+			<div class="form-group col-md-6">
+				<label>Bank Name</label> <select id="bankName" class="form-control"
+					onchange="getState(this.value);">
+					<option value="">...Select...</option>
+					<c:forEach items="${bankName}" var="bankName">
+						<option value="${bankName}">${bankName}</option>
+					</c:forEach>
+				</select>
+			</div>
+			<div class="form-group col-md-6">
+				<form action="fetchDeatils" method="post" name="ifscForm">
+					<label>Fetch By IFSC code</label>
+					<c:if test="${not empty error}">
+						<span class="text-danger" id="errordivServer">${error}</span>
+					</c:if>
+					<div class="input-group">
+						<input type="text" name="bankIfsc" id="bankIfsc"
+							class="form-control">
+						<div class="input-group-btn">
+							<input type="submit" value="Fetch Details"
+								class="btn btn-outline-primary" onclick="return validateForm()">
+						</div>
+					</div>
+					<div>
+						<span id="errordiv" class="text-danger"></span>
+					</div>
+
+				</form>
+			</div>
 		</div>
-		<div class="form-group">
-			<label>Bank City</label> <select class="form-control" id="bankCity"
-				onchange="getBranch(this.value);">
-				<option value="">...Select...</option>
-				<c:forEach items="${bankCity}" var="bankCity">
-					<option value="${bankCity}">${bankCity}</option>
-				</c:forEach>
-			</select>
+		<div class="row">
+			<div class="form-group col-md-6">
+				<label>Bank State</label> <select class="form-control"
+					id="bankState" onchange="getCity(this.value);">
+					<option value="">...Select...</option>
+					<c:forEach items="${bankstate}" var="bankstate">
+						<option value="${bankstate}">${bankstate}</option>
+					</c:forEach>
+				</select>
+			</div>
+			<div class="col-md-6">
+				<c:if test="${not empty details}">
+					<div>
+						<span class="text-info">bankName</span> &nbsp;&nbsp;
+						${details.bankName}<br> <span class="text-info">bankIfsc</span>
+						&nbsp;&nbsp; ${details.bankIfsc}<br> <span class="text-info">bankBranch</span>&nbsp;&nbsp;
+						${details.bankBranch}<br> <span class="text-info">bank_address</span>
+						&nbsp;&nbsp; ${details.bank_address}<br> <span
+							class="text-info">bankCity</span> &nbsp;&nbsp;
+						${details.bankCity}<br> <span class="text-info">bankDistrict</span>
+						&nbsp;&nbsp; ${details.bankDistrict}<br> <span
+							class="text-info">bankState</span> &nbsp;&nbsp;
+						${details.bankState}
+					</div>
+				</c:if>
+			</div>
 		</div>
-		<div class="form-group">
-			<label>Bank Branch</label> <select class="form-control"
-				id="bankBranch" onchange="getIfsc(this.value);">
-				<option value="">...Select...</option>
-				<c:forEach items="${bankBranch}" var="bankBranch">
-					<option value="${bankBranch}">${bankBranch}</option>
-				</c:forEach>
-			</select>
+		<div class="row">
+			<div class="form-group col-md-6">
+				<label>Bank City</label> <select class="form-control" id="bankCity"
+					onchange="getBranch(this.value);">
+					<option value="">...Select...</option>
+					<c:forEach items="${bankCity}" var="bankCity">
+						<option value="${bankCity}">${bankCity}</option>
+					</c:forEach>
+				</select>
+			</div>
+		</div>
+		<div class="row">
+			<div class="form-group col-md-6">
+				<label>Bank Branch</label> <select class="form-control"
+					id="bankBranch" onchange="getIfsc(this.value);">
+					<option value="">...Select...</option>
+					<c:forEach items="${bankBranch}" var="bankBranch">
+						<option value="${bankBranch}">${bankBranch}</option>
+					</c:forEach>
+				</select>
+			</div>
 		</div>
 		<div>
 			<span class="text-info">IFSC::</span> <span id="ifsc"
@@ -65,38 +127,7 @@
 				<button type="button" class="btn btn-primary"
 					onclick="resetValues();">Reset</button>
 			</div>
-			<div class="form-group">
-				<form action="fetchDeatils" method="post" name="ifscForm">
-					<label>Fetch By IFSC code</label>
-					<div class="row">
-						<div class="col-md-4">
-							<c:if test="${not empty error}">
-								<span class="text-danger" id="errordivServer">${error}</span>
-							</c:if>
-							<input type="text" name="bankIfsc" id="bankIfsc"
-								class="form-control">
-							<div>
-								<span id="errordiv" class="text-danger"></span>
-							</div>
-							<br> <input type="submit" value="Fetch Details"
-								class="btn btn-outline-primary" onclick="return validateForm()">
-						</div>
-					</div>
-				</form>
-			</div>
 		</div>
-		<c:if test="${not empty details}">
-		<div>
-			<span class="text-info">bankName</span> &nbsp;&nbsp;
-			${details.bankName}<br> <span class="text-info">bankIfsc</span>
-			&nbsp;&nbsp; ${details.bankIfsc}<br> <span class="text-info">bankBranch</span>&nbsp;&nbsp;
-			${details.bankBranch}<br> <span class="text-info">bank_address</span>
-			&nbsp;&nbsp; ${details.bank_address}<br> <span class="text-info">bankCity</span>
-			&nbsp;&nbsp; ${details.bankCity}<br> <span class="text-info">bankDistrict</span>
-			&nbsp;&nbsp; ${details.bankDistrict}<br> <span class="text-info">bankState</span>
-			&nbsp;&nbsp; ${details.bankState}
-		</div>
-		</c:if>
 	</div>
 	<script src="/js/script.js"></script>
 </body>
