@@ -32,6 +32,9 @@ public class BankIfscApplication {
 	@Autowired
 	private BankIfscRepository bankIfscRepository;
 
+	@Autowired
+	private AccessLogRepository accessLogRepository;
+
 	public static void main(String[] args) {
 		SpringApplication.run(BankIfscApplication.class, args);
 	}
@@ -114,16 +117,30 @@ public class BankIfscApplication {
 		BankIfsc details = bankIfscRepository.findBybankIfsc(bankIfsc);
 		List<String> bankStateList = bankIfscRepository.findDistinctBank();
 		ModelAndView modelAndView = new ModelAndView("ifsc");
-		if(details!=null) {
-			model.put("error","");
+		if (details != null) {
+			model.put("error", "");
 			model.put("details", details);
-		}
-		else {
-			model.put("error","invalid IFSC");
+		} else {
+			model.put("error", "invalid IFSC");
 		}
 		model.put("bankName", bankStateList);
 		modelAndView.addAllObjects(model);
 		return modelAndView;
+
+	}
+
+	@GetMapping("sendIp")
+	public void sendIp(HttpServletRequest httpServletRequest) {
+		String IP = httpServletRequest.getRemoteAddr();
+		String remoteHost = httpServletRequest.getRemoteHost();
+		int remotePort = httpServletRequest.getRemotePort();
+		String remoteUser = httpServletRequest.getRemoteUser();
+		AccessLog accessLog = new AccessLog();
+		accessLog.setIP(IP);
+		accessLog.setRemoteHost(remoteHost);
+		accessLog.setRemotePort(String.valueOf(remotePort));
+		accessLog.setRemoteUser(remoteUser);
+		accessLogRepository.save(accessLog);
 
 	}
 }

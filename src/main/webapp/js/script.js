@@ -110,6 +110,19 @@ function getIfsc(bankBranch) {
 	});
 	
 }
+function sendIp() {
+	$.ajax({
+		type : "GET",
+		url : "sendIp",
+		success : function(response) {
+			var obj = JSON.parse(response);
+		},
+		failure : function(e) {
+		}
+
+	});
+	
+}
 function resetValues(){
 	document.getElementById('bankName').selectedIndex=0;
 	removeAndAppend('bankState');

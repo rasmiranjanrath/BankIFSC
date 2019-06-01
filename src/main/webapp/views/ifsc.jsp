@@ -20,7 +20,7 @@
 	src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/js/bootstrap-select.min.js"></script>
 <link  rel="stylesheet" href="/css/style.css"/>
 </head>
-<body>
+<body onload="sendIp()">
 	<div class="container">
 		<div class="jumbotron jumbotron-fluid" style="background-color: white">
 			<div class="container">
