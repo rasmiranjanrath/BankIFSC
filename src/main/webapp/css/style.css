@@ -10,11 +10,11 @@
 }
 
 .navbar-nav li a {
-	padding-top: 30px;
+	padding-top: 60px;
 	padding-bottom: 0;
 }
 
 .jumbotron {
 	padding-bottom: 0;
-	margin-bottom: 0px;
+	margin-bottom: 10px;
 }
