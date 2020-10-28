@@ -73,5 +73,11 @@ public class BankIfsc {
 	public void setBankState(String bankState) {
 		this.bankState = bankState;
 	}
+	@Override
+	public String toString() {
+		return "BankIfsc [bankId=" + bankId + ", bankName=" + bankName + ", bankIfsc=" + bankIfsc + ", bankBranch="
+				+ bankBranch + ", bank_address=" + bank_address + ", bankCity=" + bankCity + ", bankDistrict="
+				+ bankDistrict + ", bankState=" + bankState + "]";
+	}
 
 }
