@@ -1,6 +1,6 @@
 .clock {
 	position: absolute;
-	top: 10%; left : 90%;
+	top: 10%; left : 70%;
 	transform: translateX(-50%) translateY(-50%);
 	color: #17D4FE;
 	font-size: 20px;
@@ -10,11 +10,11 @@
 }
 
 .navbar-nav li a {
-	padding-top: 70px;
+	padding-top: 90px;
 	padding-bottom: 0;
 }
 
 .jumbotron {
 	padding-bottom: 0;
-	margin-bottom: 10px;
+	margin-bottom: 18px;
 }
