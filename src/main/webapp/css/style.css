@@ -1,20 +1,20 @@
 .clock {
 	position: absolute;
-	top: 10%; left : 80%;
+	top: 10%; left : 90%;
 	transform: translateX(-50%) translateY(-50%);
 	color: #17D4FE;
 	font-size: 20px;
 	font-family: Orbitron;
 	letter-spacing: 7px;
-	left: 80%;
+	left: 90%;
 }
 
 .navbar-nav li a {
-	padding-top: 30px;
+	padding-top: 70px;
 	padding-bottom: 0;
 }
 
 .jumbotron {
 	padding-bottom: 0;
-	margin-bottom: 0px;
+	margin-bottom: 10px;
 }
