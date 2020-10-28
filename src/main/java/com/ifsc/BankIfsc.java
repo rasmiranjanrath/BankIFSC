@@ -11,6 +11,8 @@ public class BankIfsc {
 	@Id
 	@Column(name = "bank_id")
 	private Integer bankId;
+	private Integer bankId2;
+	private Integer bankId3;
 	@Column(name = "bank_name")
 	private String bankName;
 	@Column(name = "bank_ifsc")
