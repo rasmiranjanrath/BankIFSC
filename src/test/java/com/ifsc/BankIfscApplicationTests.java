@@ -11,6 +11,5 @@ public class BankIfscApplicationTests {
 
 	@Test
 	public void contextLoads() {
-	}
-
+		}
 }
