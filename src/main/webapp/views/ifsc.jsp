@@ -4,7 +4,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <h1> welcome to the world of banking </h1>
+<h1>Main Page</h1>
 <meta charset="UTF-8">
 <title>IFSC Finder</title>
 <link rel="shortcut icon" type="image/png" href="/images/favicon.png" />
