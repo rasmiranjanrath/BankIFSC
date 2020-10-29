@@ -14,19 +14,12 @@ public class AccessLog implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
-	@Id
-	@Column(name="ip")
+    @Id
 	private String IP;
-	
-	@Column(name="remote_host")
 	private String remoteHost;
-	@Column(name="remote_port")
 	private String remotePort;
-	@Column(name="remote_user")
 	private String remoteUser;
-
-	public String getRemoteHost() {
+    public String getRemoteHost() {
 		return remoteHost;
 	}
 
