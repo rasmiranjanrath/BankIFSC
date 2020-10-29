@@ -59,3 +59,5 @@ public class AccessLog implements Serializable{
 	}
 
 }
+
+//Comments Included in Access Log
